@@ -1,13 +1,44 @@
-import './App.css';
+import React, { Fragment, useState } from "react";
+import ReactDOM from "react-dom";
+import { Camera } from "./camera";
+import { Root, Preview, Footer, GlobalStyle } from "./styles.js";
 
 function App() {
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
+  const [cardImage, setCardImage] = useState();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        Hello world
-      </header>
-    </div>
+    <Fragment>
+      <Root>
+        {isCameraOpen && (
+          <Camera
+            onCapture={blob => setCardImage(blob)}
+            onClear={() => setCardImage(undefined)}
+          />
+        )}
+
+        {cardImage && (
+          <div>
+            <h2>Preview</h2>
+            <Preview src={cardImage && URL.createObjectURL(cardImage)} />
+          </div>
+        )}
+
+        <Footer>
+          <button onClick={() => setIsCameraOpen(true)}>Open Camera</button>
+          <button
+            onClick={() => {
+              setIsCameraOpen(false);
+              setCardImage(undefined);
+            }}
+          >
+            Close Camera
+          </button>
+        </Footer>
+      </Root>
+      <GlobalStyle />
+    </Fragment>
   );
 }
 
-export default App;
+export default App
