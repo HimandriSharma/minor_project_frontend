@@ -1,11 +1,16 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { Fragment, useState } from "react";
 import { Camera } from "./camera";
-import {FaCameraRetro,FaWindowClose} from 'react-icons/fa'
+import {FaCameraRetro,FaWindowClose,FaConnectdevelop} from 'react-icons/fa'
 import { Root, Preview, Footer, GlobalStyle } from "./styles.js";
 import UploadComponent from "./Upload";
 import "./styles.css";
+import styles from "./App.css";
+import Modal from "./components/Modal";
 
 function App() {
+  const [isOpen, setIsOpen] = useState(false);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [cardImage, setCardImage] = useState();
   const [state, setState] = useState({
@@ -22,7 +27,7 @@ function App() {
     console.warn({ pictures, files });
   };
   return (
-    <div>
+    <main>
       <center><h1>Text Recognizer and Translator</h1></center>
       <UploadComponent
         {...state.upload}
@@ -54,11 +59,16 @@ function App() {
             >
              <FaWindowClose size="40px"/>
             </button>
+            <button className={styles.primaryBtn} onClick={() => setIsOpen(true)}>
+              <FaConnectdevelop size="40px"/>
+            </button>
+            {isOpen && <Modal setIsOpen={setIsOpen} />}
           </Footer>
         </Root>
         <GlobalStyle />
       </Fragment>
-    </div>
+      
+    </main>
   );
 }
 
